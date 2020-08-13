@@ -81,7 +81,14 @@ func InitRouter() *gin.Engine {
 		// TODO 导入新闻列表
 		// TODO 导入新闻具体信息
 
-		
+		// 监测点列表
+		apiv1.GET("/reportList", v1.MonitorList)
+		// 新增监测点
+		apiv1.POST("/addMonitor", v1.AddMonitor)
+		// 编辑监测点
+		apiv1.POST("/editMonitor", v1.EditMonitor)
+		// 删除监测点
+		apiv1.POST("/delMonitor", v1.DelMonitor)
 	}
 
 	return r

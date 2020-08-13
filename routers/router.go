@@ -64,6 +64,24 @@ func InitRouter() *gin.Engine {
 		apiv1.POST("/editAnnouncement", v1.EditAnnouncement)
 		// 新增公告
 		apiv1.POST("/addAnnouncement", v1.AddAnnouncement)
+
+		// 新闻列表
+		apiv1.GET("/newsList", v1.NewList)
+		// 更改新闻状态
+		apiv1.POST("/editNewStatus", v1.EditNewStatus)
+		// 删除新闻
+		apiv1.POST("/delNew", v1.DelNew)
+		// 单个新闻
+		apiv1.GET("/showNewContent", v1.ShowNewContent)
+		// 编辑新闻
+		apiv1.POST("/editNew", v1.EditNew)
+		// 新增新闻
+		apiv1.POST("/newNew", v1.AddNew)
+		// TODO 上传图片接口
+		// TODO 导入新闻列表
+		// TODO 导入新闻具体信息
+
+		
 	}
 
 	return r

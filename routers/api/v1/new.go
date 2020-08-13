@@ -11,9 +11,9 @@ import (
 	"net/http"
 )
 
-func AnnouncementList(c *gin.Context) {
+func NewList(c *gin.Context) {
 	title := c.DefaultQuery("title", "");
-	data, count := models.GetAnnouncementAndCount(util.GetOffset(c), util.GetLimit(c), title)
+	data, count := models.GetNewAndCount(util.GetOffset(c), util.GetLimit(c), title)
 	code := e.OK
 	c.JSON(http.StatusOK, gin.H{
 		"code":  code,
@@ -23,7 +23,7 @@ func AnnouncementList(c *gin.Context) {
 	})
 }
 
-func EditAnnouncementStatus(c *gin.Context) {
+func EditNewStatus(c *gin.Context) {
 	id := c.PostForm("id")
 	status := c.PostForm("status")
 
@@ -34,7 +34,7 @@ func EditAnnouncementStatus(c *gin.Context) {
 	code := e.PARAM_ERROR
 	var err error
 	if !valid.HasErrors() {
-		err = models.EditAnnouncementStatus(com.StrTo(id).MustInt(), com.StrTo(status).MustInt())
+		err = models.EditNewStatus(com.StrTo(id).MustInt(), com.StrTo(status).MustInt())
 		if err == nil {
 			code = e.OK
 		}
@@ -50,15 +50,14 @@ func EditAnnouncementStatus(c *gin.Context) {
 	})
 }
 
-func DelAnnouncement(c *gin.Context) {
+func DelNew(c *gin.Context) {
 	id := c.PostForm("id")
 	valid := validation.Validation{}
 	valid.Required(id, "id").Message("id不能为空")
-
 	code := e.PARAM_ERROR
 	var err error
 	if !valid.HasErrors() {
-		err = models.DelAnnouncement(com.StrTo(id).MustInt())
+		err = models.DelNew(com.StrTo(id).MustInt())
 		if err == nil {
 			code = e.OK
 		}
@@ -75,10 +74,10 @@ func DelAnnouncement(c *gin.Context) {
 	})
 }
 
-func ShowAnnouncementContent(c *gin.Context) {
+func ShowNewContent(c *gin.Context) {
 	id := c.Query("id")
 	code := e.OK
-	data := models.GetAnnouncement(com.StrTo(id).MustInt())
+	data := models.GetNew(com.StrTo(id).MustInt())
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
 		"msg":  e.GetMsg(code),
@@ -86,17 +85,19 @@ func ShowAnnouncementContent(c *gin.Context) {
 	})
 }
 
-func EditAnnouncement(c *gin.Context) {
+func EditNew(c *gin.Context) {
 	id := com.StrTo(c.PostForm("id")).MustInt()
 	title := c.PostForm("title")
 	source := c.PostForm("source")
 	content := c.PostForm("content")
+	author := c.PostForm("author")
 
 	valid := validation.Validation{}
 	valid.Min(id, 1, "id").Message("ID必须大于0")
 	valid.Required(title, "title").Message("title不能为空")
 	valid.Required(source, "source").Message("source不能为空")
 	valid.Required(content, "content").Message("content不能为空")
+	valid.Required(author, "author").Message("author不能为空")
 
 	code := e.PARAM_ERROR
 	var err error
@@ -105,8 +106,9 @@ func EditAnnouncement(c *gin.Context) {
 		data["title"] = title
 		data["source"] = source
 		data["content"] = content
+		data["author"] = author
 		data["update_time"] = util.GenerateCurrentTimeStamp()
-		err = models.EditAnnouncement(id, data)
+		err = models.EditNew(id, data)
 		if err == nil {
 			code = e.OK
 		}
@@ -122,15 +124,17 @@ func EditAnnouncement(c *gin.Context) {
 	})
 }
 
-func AddAnnouncement(c *gin.Context) {
+func AddNew(c *gin.Context) {
 	title := c.PostForm("title")
 	source := c.PostForm("source")
 	content := c.PostForm("content")
+	author := c.PostForm("author")
 
 	valid := validation.Validation{}
 	valid.Required(title, "title").Message("title不能为空")
 	valid.Required(source, "source").Message("source不能为空")
 	valid.Required(content, "content").Message("content不能为空")
+	valid.Required(author, "author").Message("author不能为空")
 
 	accessToken := c.Query("access_token")
 	claims, _ := util.ParseToken(accessToken)
@@ -143,11 +147,12 @@ func AddAnnouncement(c *gin.Context) {
 		data["title"] = title
 		data["source"] = source
 		data["content"] = content
+		data["author"] = author
 		data["create_time"] = util.GenerateCurrentTimeStamp()
 		data["update_time"] = util.GenerateCurrentTimeStamp()
 		data["release_time"] = int64(0)
 		data["status"] = 0
-		models.AddAnnouncement(data)
+		models.AddNew(data)
 		code = e.OK
 	} else {
 		for _, validErr := range valid.Errors {

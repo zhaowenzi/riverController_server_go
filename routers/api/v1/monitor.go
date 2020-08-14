@@ -115,7 +115,7 @@ func EditMonitor(c *gin.Context) {
 		data["address"] = address
 		data["longitude"] = longitude
 		data["latitude"] = latitude
-		models.EditMonitor(id, data)
+		err = models.EditMonitor(id, data)
 		if err == nil {
 			code = e.OK
 		}

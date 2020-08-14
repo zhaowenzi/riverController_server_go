@@ -89,6 +89,16 @@ func InitRouter() *gin.Engine {
 		apiv1.POST("/editMonitor", v1.EditMonitor)
 		// 删除监测点
 		apiv1.POST("/delMonitor", v1.DelMonitor)
+
+		// 河流列表
+		apiv1.GET("/riverList", v1.RiverList)
+		// 新增河流
+		apiv1.POST("/addRiver", v1.AddRiver)
+		// 删除河流
+		apiv1.POST("/delRiver", v1.DelRiver)
+		// 编辑河流
+		apiv1.POST("/editRiver", v1.EditRiver)
+
 	}
 
 	return r

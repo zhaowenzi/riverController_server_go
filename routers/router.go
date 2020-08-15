@@ -98,6 +98,10 @@ func InitRouter() *gin.Engine {
 		apiv1.POST("/delRiver", v1.DelRiver)
 		// 编辑河流
 		apiv1.POST("/editRiver", v1.EditRiver)
+		// 获取河流授权列表
+		apiv1.GET("/authList", v1.AuthList)
+		// TODO authRiver
+		apiv1.GET("/allRiverParser", v1.AllRiverParser)
 
 	}
 

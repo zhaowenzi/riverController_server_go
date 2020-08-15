@@ -1,5 +1,6 @@
 package models
 
+
 type RiverName struct {
 	ID      int    `gorm:"primary_key;column:id;type:int;not null" json:"id"`
 	Name    string `gorm:"unique;unique;column:name;type:varchar(50);not null" json:"name"`
@@ -56,4 +57,68 @@ func DelRiver(id int) error {
 func EditRiver(id int, data map[string]interface{}) error {
 	err := db.Table("river_name").Model(&RiverName{}).Where("id = ?", id).Update(data).Error
 	return err
+}
+
+func GetRiversData(id int) (map[string]interface{}, error) {
+	data := make(map[string]interface{})
+	var rivers []RiverName
+	var authRivers []AdminRiver
+	var authData []int
+	err := db.Table("river_name").Find(&rivers).Error
+	if err != nil {
+		return nil, err
+	}
+	var riversData []map[string]interface{}
+	for index := range rivers {
+		item := make(map[string]interface{})
+		item["value"] = rivers[index].ID
+		item["title"] = rivers[index].Name
+		if rivers[index].Type == 0 {
+			item["title"] = item["title"].(string) + "(河道)"
+		}
+		if rivers[index].Type == 1 {
+			item["title"] = item["title"].(string) + "(水库)"
+		}
+		if rivers[index].Type == 2 {
+			item["title"] = item["title"].(string) + "(排污口)"
+		}
+		if rivers[index].Type == 3 {
+			item["title"] = item["title"].(string) + "(管网)"
+		}
+		if rivers[index].Type == 4 {
+			item["title"] = item["title"].(string) + "(楼宇储水池)"
+		}
+		if rivers[index].Type == 5 {
+			item["title"] = item["title"].(string) + "(养殖鱼塘)"
+		}
+		riversData = append(riversData, item)
+	}
+
+	err = db.Table("admin_river").Where("adminId = ?", id).Find(&authRivers).Error
+	if err != nil {
+		return nil, err
+	}
+
+	for index := range authRivers {
+		authData = append(authData, authRivers[index].RiverID)
+	}
+	data["rivers_data"] = riversData
+	data["auth_rivers"] = authData
+
+	return data, nil
+}
+
+func GetRivers() ([]map[string]interface{}, error) {
+	var data []map[string]interface{}
+	var rivers []RiverName
+	err := db.Table("river_name").Find(&rivers).Error
+	if err == nil {
+		for index := range rivers {
+			item := make(map[string]interface{})
+			item["key"] = rivers[index].ID
+			item["value"] = rivers[index].Name
+			data = append(data, item)
+		}
+	}
+	return data, err
 }

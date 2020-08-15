@@ -124,3 +124,42 @@ func EditRiver(c *gin.Context) {
 		"data": err,
 	})
 }
+
+func AuthList(c *gin.Context) {
+	id := com.StrTo(c.Query("id")).MustInt()
+	valid := validation.Validation{}
+	valid.Min(id, 1, "id").Message("ID必须大于0")
+
+	code := e.PARAM_ERROR
+	var data map[string]interface{}
+	var err error
+	if !valid.HasErrors() {
+		data, err = models.GetRiversData(id)
+		if err == nil {
+			code = e.OK
+		}
+
+	} else {
+		for _, validErr := range valid.Errors {
+			logging.Info("err.key: %s, err.message: %s", validErr.Key, validErr.Message)
+		}
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code": code,
+		"msg":  e.GetMsg(code),
+		"data": data,
+	})
+}
+
+func AllRiverParser(c *gin.Context) {
+	code := e.PARAM_ERROR
+	data, err := models.GetRivers()
+	if err == nil {
+		code = e.OK
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code": code,
+		"msg":  e.GetMsg(code),
+		"data": data,
+	})
+}

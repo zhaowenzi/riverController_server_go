@@ -103,6 +103,16 @@ func InitRouter() *gin.Engine {
 		// TODO authRiver
 		apiv1.GET("/allRiverParser", v1.AllRiverParser)
 
+		// 用户列表
+		apiv1.GET("/userList", v1.UserList)
+		// 删除用户
+		apiv1.POST("/delUser", v1.DelUser)
+		// 巡河记录
+		apiv1.GET("/patrolList", v1.PatrolList)
+		// 获取申请授权
+		apiv1.GET("/authUser", v1.AuthUser)
+		// 对用户授权
+		apiv1.POST("/authUserRiver",v1.AuthUserRiver)
 	}
 
 	return r

@@ -109,7 +109,7 @@ func EditRiver(c *gin.Context) {
 		data["name"] = name
 		data["address"] = address
 		data["type"] = com.StrTo(type_).MustInt()
-		err = models.EditRiver(id, data);
+		err = models.EditRiver(id, data)
 		if err == nil {
 			code = e.OK
 		}

@@ -82,13 +82,14 @@ func InitRouter() *gin.Engine {
 		// TODO 导入新闻具体信息
 
 		// 监测点列表
-		apiv1.GET("/reportList", v1.MonitorList)
+		apiv1.GET("/monitorsList", v1.MonitorList)
 		// 新增监测点
 		apiv1.POST("/addMonitor", v1.AddMonitor)
 		// 编辑监测点
 		apiv1.POST("/editMonitor", v1.EditMonitor)
 		// 删除监测点
 		apiv1.POST("/delMonitor", v1.DelMonitor)
+		// TODO 获取地图上的监测点
 
 		// 河流列表
 		apiv1.GET("/riverList", v1.RiverList)
@@ -113,6 +114,27 @@ func InitRouter() *gin.Engine {
 		apiv1.GET("/authUser", v1.AuthUser)
 		// 对用户授权
 		apiv1.POST("/authUserRiver",v1.AuthUserRiver)
+
+		// 举报列表
+		apiv1.GET("/reportList", v1.ReportList)
+		// 获取举报内容
+		apiv1.GET("/getReportContent", v1.GetReportContent)
+		// 获取所有可以分配的用户
+		apiv1.GET("/getDelegate", v1.GetDelegate)
+		// 分配负责人
+		apiv1.POST("/delegateUser", v1.DelegateUser)
+		// 审核举报
+		apiv1.POST("/audit", v1.Audit)
+
+		// 获取场景参数
+		apiv1.GET("/sceneParamParser", v1.SceneParamParser)
+		// 获取水质评价标准
+		apiv1.GET("/waterParam", v1.WaterParamParser)
+		// 修改水质评价标准
+		apiv1.POST("/editSceneParam", v1.EditSceneParam)
+		// 修改水质场景
+		apiv1.POST("/editScene", v1.EditScene)
+
 	}
 
 	return r

@@ -1,0 +1,4 @@
+[INFO][report.go:78]2020/08/18 10:39:49 [err.key: %s, err.message: %s id ID必须大于0]
+[INFO][report.go:78]2020/08/18 10:39:49 [err.key: %s, err.message: %s delegate delegate必须大于0]
+[INFO][report.go:80]2020/08/18 10:42:40 [err.key: %s, err.message: %s id ID必须大于0]
+[INFO][report.go:80]2020/08/18 10:42:40 [err.key: %s, err.message: %s delegate delegate必须大于0]

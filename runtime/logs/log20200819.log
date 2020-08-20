@@ -1,1 +1,2 @@
 [INFO][water.go:36]2020/08/19 10:57:31 [err.key: %s, err.message: %s sid SID必须存在]
+[INFO][apiAnnouncement.go:35]2020/08/19 11:54:18 [err.key: %s, err.message: %s id id不能为空]

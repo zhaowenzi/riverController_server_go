@@ -5,6 +5,7 @@ import (
 	jwt "go_server/middleware"
 	"go_server/pkg/setting"
 	"go_server/routers/api"
+	mini "go_server/routers/api/mini"
 	v1 "go_server/routers/api/v1"
 )
 
@@ -113,7 +114,7 @@ func InitRouter() *gin.Engine {
 		// 获取申请授权
 		apiv1.GET("/authUser", v1.AuthUser)
 		// 对用户授权
-		apiv1.POST("/authUserRiver",v1.AuthUserRiver)
+		apiv1.POST("/authUserRiver", v1.AuthUserRiver)
 
 		// 举报列表
 		apiv1.GET("/reportList", v1.ReportList)
@@ -135,6 +136,12 @@ func InitRouter() *gin.Engine {
 		// 修改水质场景
 		apiv1.POST("/editScene", v1.EditScene)
 
+	}
+
+	apiMini := r.Group("/api/mini")
+	{
+		apiMini.POST("/announcementList", mini.ApiAnnouncementList)
+		apiMini.POST("/announcementDetail", mini.ApiAnnouncementDetail)
 	}
 
 	return r

@@ -64,3 +64,13 @@ func AddAnnouncement(data map[string]interface{}) bool {
 	})
 	return true
 }
+
+func ApiAnnouncementList() (announcements []Announcement) {
+	db.Table("announcement").Select("id, uid, title, source, browse").Where("status = 1").Order("id desc").Find(&announcements)
+	return
+}
+
+func ApiAnnouncementDetail(id int) (announcement Announcement) {
+	db.Table("announcement").Where("id = ?", id).First(&announcement)
+	return
+}
